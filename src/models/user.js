@@ -4,10 +4,10 @@ import DBError from '../errors/dberror.js'
 const UserModel = mongoose.model('User', {
   name: String,
   email: String,
-  password: String
+  passwordHash: String
 })
 
-export const createNewUser = async ({ name, email, password }) => {
+export const createNewUser = async ({ name, email, passwordHash }) => {
   const user = await getUserByEmail({ email })
 
   if (user) {
@@ -18,7 +18,7 @@ export const createNewUser = async ({ name, email, password }) => {
 
   newUser.name = name
   newUser.email = email
-  newUser.password = password
+  newUser.passwordHash = passwordHash
 
   await newUser.save()
 
