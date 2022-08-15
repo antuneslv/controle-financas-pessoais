@@ -2,7 +2,8 @@ import mongoose from 'mongoose'
 
 const DepositModel = mongoose.model('Deposit', {
   description: String,
-  value: Number
+  value: Number,
+  createdAt: Date
 })
 
 export const createNewDeposit = async ( description, value ) => {
@@ -10,6 +11,7 @@ export const createNewDeposit = async ( description, value ) => {
 
   newDeposit.description = description
   newDeposit.value = value
+  newDeposit.createdAt = new Date()
 
   await newDeposit.save()
 

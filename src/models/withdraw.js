@@ -2,7 +2,8 @@ import mongoose from 'mongoose'
 
 const WithdrawModel = mongoose.model('Withdraw', {
   description: String,
-  value: Number
+  value: Number,
+  createdAt: Date
 })
 
 export const createNewWithdraw = async (description, value) => {
@@ -10,6 +11,7 @@ export const createNewWithdraw = async (description, value) => {
 
   newWithdraw.description = description
   newWithdraw.value = value
+  newWithdraw.createdAt = new Date()
 
   await newWithdraw.save()
 
