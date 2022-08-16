@@ -17,7 +17,8 @@
     "express-cors": "^0.0.3",
     "express-fileupload": "^1.4.0",
     "moment": "^2.29.4",
-    "mongoose": "^6.4.5"
+    "mongoose": "^6.4.5",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
