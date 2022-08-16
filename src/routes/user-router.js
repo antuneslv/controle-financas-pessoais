@@ -1,7 +1,13 @@
 import { Router } from 'express'
 import bcrypt from 'bcrypt'
+import { v4 as uuidV4 } from 'uuid'
 import { createToken } from '../models/token.js'
-import { createNewUser, getUserByEmail } from '../models/user.js'
+import {
+  createNewUser,
+  getUserByEmail,
+  getUserById,
+  saveUserAvatar
+} from '../models/user.js'
 import UserDTO from '../views/user-dto.js'
 import TokenDTO from '../views/token-dto.js'
 
@@ -33,6 +39,36 @@ userRouter.post('/login', async (request, response) => {
   const token = await createToken(user._id)
 
   response.status(201).send(new TokenDTO(token))
+})
+
+userRouter.post('/:id/avatar', async (request, response) => {
+  const { id } = request.params
+
+  if (!request.files) {
+    response.status(400).send('no file')
+    return
+  }
+
+  const user = await getUserById(id)
+
+  let path = ''
+  if (user.avatarPath) {
+    path = user.avatarPath
+  } else {
+    const fileId = uuidV4()
+    path = `./images/${fileId}`
+  }
+
+  request.files.avatar.mv(path, err => {
+    if (err) {
+      console.error(err)
+      response.status(500).send('error')
+      return
+    }
+
+    saveUserAvatar(id, path)
+    response.status(201).send('image saved')
+  })
 })
 
 export default userRouter
