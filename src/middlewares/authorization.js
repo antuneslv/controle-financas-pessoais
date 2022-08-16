@@ -1,7 +1,7 @@
 import { getValidToken } from '../models/token.js'
 
 const authenticationMiddleware = async (req, res, next) => {
-  const tokenId = req.headers['Authorization']
+  const tokenId = req.headers['authorization']
 
   try {
     await getValidToken(tokenId)
